@@ -9,7 +9,6 @@ import io.javalin.websocket.WsErrorContext;
 import io.javalin.websocket.WsMessageContext;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import me.kisoft.reveal.control.backend.dto.RevealSlideUpdateDto;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -58,8 +57,7 @@ public class RevealControlService {
         if (controlSession != null) {
             RevealClientSession clientSession = clientSessionMap.get(controlSession.getClientSessionId());
             if (clientSession != null) {
-                RevealSlideUpdateDto update = wmc.messageAsClass(RevealSlideUpdateDto.class);
-                clientSession.updateSlide(update.getVerticalIndex(), update.getHorizontalIndex());
+                clientSession.sendCommand(wmc.message());
             }
         }
 

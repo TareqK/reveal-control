@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientSessionInfoDto {
-    private static final String type = "clientSessionInfo";
+
+    private final String type = "clientSessionInfo";
     private String url;
     private String qrImage;
 }

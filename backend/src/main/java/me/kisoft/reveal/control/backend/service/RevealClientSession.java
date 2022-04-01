@@ -2,7 +2,6 @@
  */
 package me.kisoft.reveal.control.backend.service;
 
-import com.google.zxing.EncodeHintType;
 import io.javalin.websocket.WsContext;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.kisoft.reveal.control.backend.dto.ClientSessionInfoDto;
-import me.kisoft.reveal.control.backend.dto.RevealSlideUpdateDto;
 import net.glxn.qrgen.javase.QRCode;
 
 /**
@@ -59,7 +57,7 @@ public class RevealClientSession {
         sessionContext.send(new ClientSessionInfoDto(controlUrl, generateQrBase64(controlUrl)));
     }
 
-    public void updateSlide(int verticalIndex, int horizontalIndex) {
-        sessionContext.send(new RevealSlideUpdateDto(verticalIndex, horizontalIndex));
+    void sendCommand(String message) {
+        sessionContext.send(message);
     }
 }
