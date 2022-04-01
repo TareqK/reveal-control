@@ -1,0 +1,37 @@
+@startuml
+
+actor user as "User"
+
+participant presentation as "Presentation"
+
+participant backend as "Backend"
+
+participant controlPresentation as "Control Presentation"
+
+user <--> presentation : Open Presentation
+
+presentation --> backend : Open Socket Connection
+
+presentation --> backend : Send Presentation URL
+
+backend --> presentation : Return QR Image with query params
+
+presentation --> presentation : Inject QR Slide
+
+user <--> presentation : Scan QR Slide
+
+user <--> controlPresentation : Open Control Presentation
+
+controlPresentation --> controlPresentation : Parse Query Params
+
+controlPresentation --> backend : Open Socket Connection
+
+controlPresentation --> backend : Send Connection Params
+
+user --> controlPresentation : Move Slide
+
+controlPresentation --> backend : Move Slide
+
+backend --> presentation : Move Slide
+
+@enduml
