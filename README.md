@@ -9,5 +9,5 @@ TBD
 
 ## Usage
 
-See the documentation [Here](https://tareqkirresh/reveal-control) on how
+See the documentation [Here](https://tareqkirresh.com/reveal-control) on how
 to set up and configure RevealControl
