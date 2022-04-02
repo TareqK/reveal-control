@@ -1,6 +1,6 @@
 node('master'){
  def scmVars = checkout scm
- def imageTag = TAG_NAME
+ def imageTag = env.TAG_NAME
  if(imageTag != null){
    imageTag = "latest"
  }
