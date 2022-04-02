@@ -1,4 +1,5 @@
 node('master'){
- def scmVars = checkout
+ def scmVars = checkout scm
  print(scmVars)
+  
 }
