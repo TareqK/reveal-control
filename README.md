@@ -4,8 +4,14 @@ any device to control a reveal.js presentation.
 
 ## Quickstart
 
-TBD
+You can run a backend server of RevealControl by cloning this repository and running
 
+```bash
+make run
+
+```
+
+The build uses maven(with jdk11) and docker. This will run a local server on port ``8080``. The client-side reveal.js plugin is in the ``dist`` directory
 
 ## Usage
 
