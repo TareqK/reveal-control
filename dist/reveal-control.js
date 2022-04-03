@@ -23,17 +23,13 @@ const _revealControl_initControlMode = function (deck, config, queryParams) {
         const revealControlSocket = new WebSocket(`${config.url}?sessionType=controller&sessionId=${clientSessionId}`);
         let slidesElement = deck.getSlidesElement();
         deck.on('slidechanged', (e) => {
-            const state = deck.getState();
-            setTimeout(() => {
-                const update = {
-                    type: "updateSlides",
-                    "indexh": state.indexh,
-                    "indexv": state.indexv,
-                    "indexf": state.indexf
-                };
-                revealControlSocket.send(JSON.stringify(update));
-            }, 10)//ensure that events dont get raced
-
+            _revealControl_updateSlides(deck, revealControlSocket);
+        });
+        deck.on('fragmentshown', event => {
+            _revealControl_updateSlides(deck, revealControlSocket);
+        });
+        deck.on('fragmenthidden', event => {
+            _revealControl_updateSlides(deck, revealControlSocket);
         });
         const connectSlide = `
                                 <section>
@@ -46,6 +42,19 @@ const _revealControl_initControlMode = function (deck, config, queryParams) {
     });
 
 };
+
+const _revealControl_updateSlides = function (deck, revealControlSocket) {
+    const state = deck.getState();
+    setTimeout(() => {
+        const update = {
+            type: "updateSlides",
+            "indexh": state.indexh,
+            "indexv": state.indexv,
+            "indexf": state.indexf
+        };
+        revealControlSocket.send(JSON.stringify(update));
+    }, 15)//ensure that events dont get raced
+}
 
 const _revealControl_initClientMode = function (deck, config, queryParams) {
     deck.on('ready', () => {
@@ -68,7 +77,7 @@ const _revealControl_initClientMode = function (deck, config, queryParams) {
                     deck.slide(0, 0, 0);
                     break;
                 case "updateSlides":
-                    deck.slide(message.indexh, message.indexv,message.indexf);
+                    deck.slide(message.indexh, message.indexv, message.indexf);
                     break;
                 default:
                     console.log(`Unknown Message Type : ${message.type}`);
