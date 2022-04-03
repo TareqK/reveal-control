@@ -23,11 +23,13 @@ const _revealControl_initControlMode = function (deck, config, queryParams) {
         const revealControlSocket = new WebSocket(`${config.url}?sessionType=controller&sessionId=${clientSessionId}`);
         let slidesElement = deck.getSlidesElement();
         deck.on('slidechanged', (e) => {
+            const state = deck.getState();
             setTimeout(() => {
                 const update = {
                     type: "updateSlides",
-                    "indexh": e.indexh,
-                    "indexv": e.indexv
+                    "indexh": state.indexh,
+                    "indexv": state.indexv,
+                    "indexf": state.indexf
                 };
                 revealControlSocket.send(JSON.stringify(update));
             }, 10)//ensure that events dont get raced
@@ -66,7 +68,7 @@ const _revealControl_initClientMode = function (deck, config, queryParams) {
                     deck.slide(0, 0, 0);
                     break;
                 case "updateSlides":
-                    deck.slide(message.indexh, message.indexv);
+                    deck.slide(message.indexh, message.indexv,message.indexf);
                     break;
                 default:
                     console.log(`Unknown Message Type : ${message.type}`);
