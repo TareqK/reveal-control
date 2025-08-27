@@ -36,7 +36,9 @@ const _revealControl_initControlMode = function (deck, config, queryParams) {
             _revealControl_updateSlides(deck, revealControlSocket);
         });
         const connectSlide = `<section">
+
                                 <h2> Control Link Established. Proceed with Presenting</h2>
+        
                               </section>`;
         slidesElement.insertAdjacentHTML("afterbegin", connectSlide);
         deck.sync();
@@ -62,7 +64,7 @@ const _revealControl_initClientMode = function (deck, config, queryParams) {
     deck.on('ready', () => {
         let slidesElement = deck.getSlidesElement();
         const revealControlSocket = new WebSocket(`${config.url}?sessionType=client&slideshowUrl=${encodeURIComponent(window.location)}`);
-        const printUrl = `${location.protocol}//${location.host}:${location.port??80}${location.pathname}'?print-pdf'`
+        const printUrl = `${location.protocol}//${location.host}${location.pathname}'?print-pdf'`
         revealControlSocket.onmessage = function (event) {
             let message = JSON.parse(event.data);
             switch (message.type) {
@@ -72,6 +74,7 @@ const _revealControl_initClientMode = function (deck, config, queryParams) {
                                             <img src="data:image/png;base64, ${message.qrImage}"/>
                                             <br/>
                                             <a target="_blank" href="${message.url}">Or Click Here</a>
+                                            <br/>
                                             <a href="${printUrl}">Print Slideshow</a>
                                         </section>`;
                     slidesElement.insertAdjacentHTML("afterbegin", connectSlide);
