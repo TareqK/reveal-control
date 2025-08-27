@@ -62,6 +62,7 @@ const _revealControl_initClientMode = function (deck, config, queryParams) {
     deck.on('ready', () => {
         let slidesElement = deck.getSlidesElement();
         const revealControlSocket = new WebSocket(`${config.url}?sessionType=client&slideshowUrl=${encodeURIComponent(window.location)}`);
+        const printUrl = `${location.protocol}//${location.host}:${location.port??80}${location.pathname}'?print-pdf'`
         revealControlSocket.onmessage = function (event) {
             let message = JSON.parse(event.data);
             switch (message.type) {
@@ -70,7 +71,8 @@ const _revealControl_initClientMode = function (deck, config, queryParams) {
                                             <h2> Scan the below QR Code to take control </h2>
                                             <img src="data:image/png;base64, ${message.qrImage}"/>
                                             <br/>
-                                            <a target="_blank" href="${message.url}">Or click here</a>
+                                            <a target="_blank" href="${message.url}">Or Click Here</a>
+                                            <a href="${printUrl}">Print Slideshow</a>
                                         </section>`;
                     slidesElement.insertAdjacentHTML("afterbegin", connectSlide);
                     deck.sync();
