@@ -10,6 +10,10 @@ const initRevealControl = function (deck) {
     const queryParams = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop)
     });
+    if(!!queryParams['print-pdf']){
+        console.log('no control in pdf print mode')
+        return;
+    }
     if (queryParams.control === "true") {
         _revealControl_initControlMode(deck, config, queryParams);
     } else {
@@ -32,7 +36,7 @@ const _revealControl_initControlMode = function (deck, config, queryParams) {
             _revealControl_updateSlides(deck, revealControlSocket);
         });
         const connectSlide = `
-                                <section>
+                                <section style="top: 20.5px; display: block;">
                                     <h2> Control Link Established. Proceed with Presenting</h2>
                                 </section>
                             `;
@@ -65,7 +69,7 @@ const _revealControl_initClientMode = function (deck, config, queryParams) {
             switch (message.type) {
                 case "clientSessionInfo":
                     const connectSlide = `
-                                <section>
+                                <section style="top: 20.5px; display: block;">
                                     <h2> Scan the below QR Code to take control </h2>
                                     <img src="data:image/png;base64, ${message.qrImage}"/>
                                     <br/>
